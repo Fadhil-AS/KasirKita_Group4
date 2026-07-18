@@ -1,0 +1,87 @@
+<mxfile host="65bd71144e">
+    <diagram id="aPiwqjpq7FQWO1VTMRpu" name="Page-1">
+        <mxGraphModel dx="1086" dy="458" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="760" pageHeight="740" math="0" shadow="0" adaptiveColors="auto">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="title" value="KasirKita — Use Case Diagram" style="text;html=1;align=center;fontStyle=1;fontSize=16;" parent="1" vertex="1">
+                    <mxGeometry x="230" y="8" width="320" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="kasir" value="Kasir" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
+                    <mxGeometry x="60" y="180" width="40" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="admin" value="Admin" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
+                    <mxGeometry x="60" y="470" width="40" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="sys" value="Sistem KasirKita" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;fontStyle=1;fillColor=none;strokeColor=#666666;spacingTop=6;" parent="1" vertex="1">
+                    <mxGeometry x="290" y="55" width="400" height="640" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc1" value="Login / Autentikasi" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="340" y="80" width="300" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc2" value="Registrasi User" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+                    <mxGeometry x="340" y="146" width="300" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc3" value="Kelola Barang (CRUD)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="340" y="212" width="300" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc4" value="Kelola Supplier (CRUD)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="340" y="278" width="300" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc5" value="Kelola Pembeli (CRUD)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="340" y="344" width="300" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc6" value="Buat Transaksi (kurangi stok)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="340" y="410" width="300" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc7" value="Lihat Detail Transaksi" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="340" y="476" width="300" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc8" value="Catat Pembayaran (hitung kembalian)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="340" y="542" width="300" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc9" value="Lihat Dashboard / Stok" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="340" y="608" width="300" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="g1" value="" style="edgeStyle=none;html=1;endArrow=none;" parent="1" source="kasir" target="uc1" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="g3" value="" style="edgeStyle=none;html=1;endArrow=none;" parent="1" source="kasir" target="uc3" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="g4" value="" style="edgeStyle=none;html=1;endArrow=none;" parent="1" source="kasir" target="uc4" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="g5" value="" style="edgeStyle=none;html=1;endArrow=none;" parent="1" source="kasir" target="uc5" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="g6" value="" style="edgeStyle=none;html=1;endArrow=none;" parent="1" source="kasir" target="uc6" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="g7" value="" style="edgeStyle=none;html=1;endArrow=none;" parent="1" source="kasir" target="uc7" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="g8" value="" style="edgeStyle=none;html=1;endArrow=none;" parent="1" source="kasir" target="uc8" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="g9" value="" style="edgeStyle=none;html=1;endArrow=none;" parent="1" source="kasir" target="uc9" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ga2" value="" style="edgeStyle=none;html=1;endArrow=none;" parent="1" source="admin" target="uc2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="gen" value="" style="edgeStyle=none;html=1;endArrow=block;endFill=0;" parent="1" source="admin" target="kasir" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="inc" value="«include»" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;dashed=1;fontSize=10;" parent="1" source="uc7" target="uc1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="672" y="498"/>
+                            <mxPoint x="672" y="102"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

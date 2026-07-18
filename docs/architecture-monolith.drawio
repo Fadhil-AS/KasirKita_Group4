@@ -1,0 +1,73 @@
+<mxfile host="65bd71144e">
+    <diagram id="P7OxsRUJCixVVvDQPVEa" name="Page-1">
+        <mxGraphModel dx="1086" dy="1258" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="800" math="0" shadow="0" adaptiveColors="auto">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="title" value="KasirKita — Arsitektur Monolitik (Layered)" style="text;html=1;align=center;fontStyle=1;fontSize=16;" parent="1" vertex="1">
+                    <mxGeometry x="277.5" y="-39" width="400" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="browser" value="Web Browser&#xa;static/index.html (HTML + JS, fetch)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="352.5" y="3" width="250" height="56" as="geometry"/>
+                </mxCell>
+                <mxCell id="container" value="Spring Boot Monolith  —  1 JAR / 1 proses (localhost:8090)" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;fontStyle=1;fillColor=#f5f5f5;strokeColor=#666666;spacingTop=6;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="122" width="755" height="488" as="geometry"/>
+                </mxCell>
+                <mxCell id="ctrl" value="Controller  (@RestController)&#xa;Auth · Barang · Pembeli · Supplier · Transaksi · Pembayaran" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="150" y="205" width="380" height="58" as="geometry"/>
+                </mxCell>
+                <mxCell id="svc" value="Service  (logika bisnis)&#xa;Auth · Barang · Pembeli · Supplier · Transaksi · Pembayaran" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="150" y="291" width="380" height="58" as="geometry"/>
+                </mxCell>
+                <mxCell id="repo" value="Repository  (Spring Data JPA)&#xa;6 × JpaRepository" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="150" y="377" width="380" height="52" as="geometry"/>
+                </mxCell>
+                <mxCell id="ent" value="Entity  (@Entity / Hibernate ORM)&#xa;Barang · Supplier · Pembeli · Transaksi · DetailTransaksi · Pembayaran · User" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="150" y="453" width="380" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;" edge="1" parent="1" source="cfg" target="dto">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="cfg" value="Config / Security&#xa;Spring Security · BCrypt" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+                    <mxGeometry x="644" y="211" width="175" height="58" as="geometry"/>
+                </mxCell>
+                <mxCell id="2" style="edgeStyle=none;html=1;dashed=1;" edge="1" parent="1" source="dto" target="cfg">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="dto" value="DTO&#xa;request / response (record) + Validation" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+                    <mxGeometry x="644" y="306" width="175" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" style="edgeStyle=none;html=1;dashed=1;" edge="1" parent="1" source="exc" target="dto">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="exc" value="Exception&#xa;GlobalExceptionHandler" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+                    <mxGeometry x="644" y="406" width="175" height="52" as="geometry"/>
+                </mxCell>
+                <mxCell id="db" value="MySQL 8&#xa;database: kasirkita" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=14;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="377.5" y="746" width="200" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="e1" value="HTTP / JSON (REST)" style="rounded=0;html=1;endArrow=block;fontSize=11;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="browser" target="container" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" parent="1" source="ctrl" target="svc" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" parent="1" source="svc" target="repo" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" parent="1" source="repo" target="ent" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e5" value="JDBC / Hibernate (JPA)" style="rounded=0;html=1;endArrow=block;fontSize=11;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="container" target="db" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e6" value="pakai" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;dashed=1;fontSize=10;entryX=0.017;entryY=0.397;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="ctrl" target="cfg" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e7" value="amankan" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;dashed=1;fontSize=10;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" parent="1" source="svc" target="dto" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

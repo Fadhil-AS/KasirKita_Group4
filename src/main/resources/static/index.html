@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KasirKita — Dashboard</title>
+<style>
+  :root { --b:#2563eb; --bd:#e2e8f0; --bg:#f1f5f9; --dark:#0f172a; --muted:#64748b; --ok:#16a34a; --err:#dc2626; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:system-ui,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--dark); }
+  .app { display:flex; min-height:100vh; }
+
+  /* SIDEBAR */
+  .sidebar { width:230px; background:var(--dark); color:#cbd5e1; display:flex; flex-direction:column; flex-shrink:0; }
+  .brand { padding:18px 20px; font-size:17px; font-weight:700; color:#fff; border-bottom:1px solid #1e293b; }
+  nav { padding:10px 0; flex:1; overflow:auto; }
+  .nav-link { display:block; padding:9px 20px; color:#cbd5e1; text-decoration:none; font-size:14px; cursor:pointer; border-left:3px solid transparent; }
+  .nav-link:hover { background:#1e293b; color:#fff; }
+  .nav-link.active { background:#1e293b; color:#fff; border-left-color:var(--b); }
+  .nav-group-title { display:flex; justify-content:space-between; align-items:center; padding:12px 20px 6px; font-size:11px; letter-spacing:.5px; text-transform:uppercase; color:#64748b; cursor:pointer; user-select:none; }
+  .nav-group-title .caret { transition:transform .15s; }
+  .nav-group.collapsed .caret { transform:rotate(-90deg); }
+  .nav-group.collapsed .nav-link { display:none; }
+  .nav-group .nav-link { padding-left:32px; }
+
+  /* CONTENT */
+  .content { flex:1; display:flex; flex-direction:column; min-width:0; }
+  .topbar { background:#fff; border-bottom:1px solid var(--bd); padding:12px 24px; display:flex; align-items:center; gap:16px; }
+  .topbar h2 { margin:0; font-size:17px; }
+  .user-area { margin-left:auto; position:relative; }
+  .user-btn { display:flex; align-items:center; gap:8px; background:#eef2ff; color:var(--dark); border:1px solid var(--bd); padding:7px 12px; border-radius:8px; cursor:pointer; font-size:13px; }
+  .avatar { width:24px; height:24px; border-radius:50%; background:var(--b); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; }
+  .dropdown { position:absolute; right:0; top:110%; background:#fff; border:1px solid var(--bd); border-radius:10px; box-shadow:0 8px 24px rgba(0,0,0,.1); min-width:150px; overflow:hidden; z-index:20; }
+  .dropdown button { width:100%; text-align:left; background:none; color:var(--dark); padding:10px 14px; border:none; cursor:pointer; font-size:13px; }
+  .dropdown button:hover { background:#f1f5f9; }
+  main { padding:22px 24px; flex:1; }
+  footer { background:#fff; border-top:1px solid var(--bd); padding:12px 24px; font-size:12px; color:var(--muted); text-align:center; }
+
+  /* COMPONENTS */
+  .view { display:none; }
+  .view.active { display:block; }
+  .card { background:#fff; border:1px solid var(--bd); border-radius:12px; padding:16px; margin-bottom:18px; }
+  .card h3 { margin:0 0 12px; font-size:15px; }
+  form { display:flex; gap:8px; flex-wrap:wrap; align-items:flex-end; margin-bottom:12px; }
+  label { display:flex; flex-direction:column; font-size:12px; color:var(--muted); gap:3px; }
+  input, select { padding:7px 9px; border:1px solid var(--bd); border-radius:8px; font-size:13px; background:#fff; }
+  button { padding:8px 14px; border:none; border-radius:8px; background:var(--b); color:#fff; font-size:13px; cursor:pointer; }
+  button.sec { background:#eef2ff; color:var(--b); }
+  button.danger { background:#fee2e2; color:var(--err); padding:4px 9px; }
+  button:hover { opacity:.92; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th, td { text-align:left; padding:7px 9px; border-bottom:1px solid var(--bd); }
+  th { color:var(--muted); font-weight:600; }
+  .msg { font-size:12px; min-height:16px; margin-top:6px; }
+  .msg.ok { color:var(--ok); } .msg.err { color:var(--err); }
+  .pill { background:#f1f5f9; border-radius:8px; padding:8px 10px; font-size:13px; }
+  .items-row { display:flex; gap:8px; margin-bottom:6px; }
+  .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:14px; margin-bottom:18px; }
+  .stat { background:#fff; border:1px solid var(--bd); border-radius:12px; padding:16px; }
+  .stat span { font-size:12px; color:var(--muted); }
+  .stat b { display:block; font-size:26px; margin-top:4px; }
+  .hint { color:var(--muted); font-size:13px; }
+  .donut-wrap { display:flex; gap:32px; align-items:center; justify-content:center; flex-wrap:wrap; }
+  .lg { display:flex; align-items:center; gap:8px; font-size:13px; margin-bottom:6px; }
+  .dot { width:12px; height:12px; border-radius:3px; display:inline-block; }
+
+  /* LOGIN GATE */
+  .gate { position:fixed; inset:0; background:linear-gradient(135deg,#0f172a,#1e293b); display:flex; align-items:center; justify-content:center; z-index:50; }
+  .login-card { background:#fff; border-radius:16px; padding:30px; width:340px; box-shadow:0 20px 50px rgba(0,0,0,.3); }
+  .login-card .logo { font-size:26px; text-align:center; margin-bottom:4px; }
+  .login-card h3 { margin:0 0 2px; text-align:center; }
+  .login-card p { margin:0 0 18px; text-align:center; color:var(--muted); font-size:13px; }
+  .login-card form { flex-direction:column; align-items:stretch; }
+  .login-card label { margin-bottom:12px; }
+  .login-card button[type=submit] { width:100%; padding:11px; font-size:14px; }
+  [hidden] { display:none !important; }
+</style>
+</head>
+<body>
+<!-- LOGIN GATE (tampil pertama, dashboard tak bisa diakses tanpa login) -->
+<div id="gate" class="gate">
+  <div class="login-card">
+    <div class="logo">🛒</div>
+    <h3>KasirKita</h3>
+    <p>Masuk untuk mengakses dashboard</p>
+    <form onsubmit="login(event)">
+      <label>Username<input id="loginUser" placeholder="username" required autofocus></label>
+      <label>Password<input id="loginPass" type="password" placeholder="password" required></label>
+      <div id="loginMsg" class="msg err"></div>
+      <button type="submit">Masuk</button>
+    </form>
+  </div>
+</div>
+
+<!-- APP (tersembunyi sampai login berhasil) -->
+<div class="app" id="app" hidden>
+  <aside class="sidebar">
+    <div class="brand">🛒 KasirKita</div>
+    <nav>
+      <a class="nav-link active" data-view="dashboard" data-title="Dashboard">Dashboard</a>
+      <div class="nav-group">
+        <div class="nav-group-title" onclick="toggleGroup(this)">Inventori <span class="caret">▾</span></div>
+        <a class="nav-link" data-view="supplier" data-title="Supplier">Supplier</a>
+        <a class="nav-link" data-view="barang" data-title="Barang">Barang</a>
+      </div>
+      <div class="nav-group">
+        <div class="nav-group-title" onclick="toggleGroup(this)">Penjualan <span class="caret">▾</span></div>
+        <a class="nav-link" data-view="pembeli" data-title="Pembeli">Pembeli</a>
+        <a class="nav-link" data-view="transaksi" data-title="Transaksi">Transaksi</a>
+      </div>
+    </nav>
+  </aside>
+
+  <div class="content">
+    <header class="topbar">
+      <h2 id="pageTitle">Dashboard</h2>
+      <div class="user-area">
+        <button class="user-btn" onclick="toggleUserDropdown(event)">
+          <span class="avatar" id="userAvatar">A</span><span id="userName">admin</span> ▾
+        </button>
+        <div id="userDropdown" class="dropdown" hidden>
+          <button onclick="logout()">Logout</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- DASHBOARD -->
+      <section class="view active" id="view-dashboard">
+        <div class="stats">
+          <div class="stat"><span>Supplier</span><b id="statSupplier">–</b></div>
+          <div class="stat"><span>Barang</span><b id="statBarang">–</b></div>
+          <div class="stat"><span>Pembeli</span><b id="statPembeli">–</b></div>
+        </div>
+        <div class="card">
+          <h3>Komposisi Stok per Barang</h3>
+          <div class="donut-wrap">
+            <div id="donut"></div>
+            <div id="donutLegend"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SUPPLIER (hanya nama) -->
+      <section class="view" id="view-supplier">
+        <div class="card">
+          <h3>Tambah Supplier</h3>
+          <form onsubmit="addSupplier(event)">
+            <label>Nama Supplier<input id="sNama" required></label>
+            <button>Tambah</button>
+          </form>
+          <div id="msgSupplier" class="msg"></div>
+          <table><thead><tr><th>No</th><th>Nama</th><th></th></tr></thead>
+            <tbody id="tblSupplier"></tbody></table>
+        </div>
+      </section>
+
+      <!-- BARANG -->
+      <section class="view" id="view-barang">
+        <div class="card">
+          <h3 id="barangFormTitle">Tambah Barang</h3>
+          <form onsubmit="saveBarang(event)">
+            <label>Nama<input id="bNama" required></label>
+            <label>Harga<input id="bPrice" type="number" step="0.01" min="0" required></label>
+            <label>Stok<input id="bStok" type="number" min="0" required></label>
+            <label>Supplier<select id="bSupplier" required></select></label>
+            <button id="barangSubmit">Tambah</button>
+            <button type="button" id="barangCancel" class="sec" hidden onclick="cancelEditBarang()">Batal</button>
+          </form>
+          <div id="msgBarang" class="msg"></div>
+          <table><thead><tr><th>No</th><th>Nama</th><th>Harga</th><th>Stok</th><th>Supplier</th><th></th></tr></thead>
+            <tbody id="tblBarang"></tbody></table>
+        </div>
+      </section>
+
+      <!-- PEMBELI -->
+      <section class="view" id="view-pembeli">
+        <div class="card">
+          <h3>Tambah Pembeli</h3>
+          <form onsubmit="addPembeli(event)">
+            <label>Nama<input id="pNama" required></label>
+            <label>JK<select id="pJk"><option value="L">L</option><option value="P">P</option></select></label>
+            <label>No. Telepon<input id="pTelp"></label>
+            <label>Alamat<input id="pAlamat"></label>
+            <button>Tambah</button>
+          </form>
+          <div id="msgPembeli" class="msg"></div>
+          <table><thead><tr><th>No</th><th>Nama</th><th>JK</th><th>Telepon</th><th>Alamat</th></tr></thead>
+            <tbody id="tblPembeli"></tbody></table>
+        </div>
+      </section>
+
+      <!-- TRANSAKSI (+ PEMBAYARAN) -->
+      <section class="view" id="view-transaksi">
+        <div class="card">
+          <h3>Daftar Transaksi</h3>
+          <table><thead><tr><th>No</th><th>No Transaksi</th><th>Pembeli</th><th>Tanggal</th><th>Total</th><th>Item</th></tr></thead>
+            <tbody id="tblTransaksi"></tbody></table>
+        </div>
+        <div class="card">
+          <h3>Buat Transaksi</h3>
+          <form onsubmit="createTransaksi(event)">
+            <label>Pembeli<select id="tPembeli"><option value="">Umum (tanpa nama)</option></select></label>
+            <div style="flex:1 1 100%">
+              <div id="itemRows"></div>
+              <button type="button" class="sec" onclick="addItemRow()">+ Item</button>
+            </div>
+            <button>Buat Transaksi</button>
+          </form>
+          <div id="msgTransaksi" class="msg"></div>
+          <div id="trxResult"></div>
+        </div>
+        <div class="card">
+          <h3>Lihat Detail Transaksi</h3>
+          <form onsubmit="getTransaksi(event)">
+            <label>No Transaksi<input id="trxLookup" type="number" min="1" required></label>
+            <button class="sec">Lihat</button>
+          </form>
+          <div id="trxDetail"></div>
+        </div>
+        <div class="card">
+          <h3>Pembayaran</h3>
+          <form onsubmit="bayar(event)">
+            <label>No Transaksi<input id="payTrx" type="number" min="1" required></label>
+            <label>Uang Dibayar<input id="payUang" type="number" step="0.01" min="0" required></label>
+            <button>Bayar</button>
+          </form>
+          <div id="msgPembayaran" class="msg"></div>
+          <div id="payResult"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer>KasirKita © 2022</footer>
+  </div>
+</div>
+
+<script>
+const API = '';
+let auth = null;
+let barangCache = [];
+const barangOptions = () => barangCache.map(b => `<option value="${b.id}">${b.namaBarang} (stok ${b.stok})</option>`).join('');
+
+function headers(json) {
+  const h = {};
+  if (json) h['Content-Type'] = 'application/json';
+  if (auth) h['Authorization'] = auth;
+  return h;
+}
+async function api(method, path, body) {
+  const res = await fetch(API + path, {
+    method, headers: headers(body !== undefined),
+    body: body !== undefined ? JSON.stringify(body) : undefined
+  });
+  if (res.status === 401) { logout(); throw new Error('Sesi berakhir, silakan login ulang'); }
+  const text = await res.text();
+  const data = text ? JSON.parse(text) : null;
+  if (!res.ok) throw new Error(data && data.message ? data.message : ('HTTP ' + res.status));
+  return data;
+}
+function msg(id, text, ok) {
+  const el = document.getElementById(id);
+  el.textContent = text; el.className = 'msg ' + (ok ? 'ok' : 'err');
+}
+const rupiah = n => 'Rp ' + Number(n).toLocaleString('id-ID');
+
+// ---- NAV ----
+function showView(name, title) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.toggle('active', l.dataset.view === name));
+  document.getElementById('pageTitle').textContent = title;
+}
+function toggleGroup(el) { el.parentElement.classList.toggle('collapsed'); }
+document.querySelectorAll('.nav-link').forEach(l =>
+  l.addEventListener('click', () => showView(l.dataset.view, l.dataset.title)));
+
+// ---- LOGIN GATE ----
+function enterApp(username) {
+  document.getElementById('gate').hidden = true;
+  document.getElementById('app').hidden = false;
+  document.getElementById('userName').textContent = username;
+  document.getElementById('userAvatar').textContent = username.charAt(0).toUpperCase();
+  initApp();
+}
+function login(e) {
+  e.preventDefault();
+  const u = document.getElementById('loginUser').value;
+  const p = document.getElementById('loginPass').value;
+  auth = 'Basic ' + btoa(u + ':' + p);
+  api('POST', '/api/auth/login', { username: u, password: p })
+    .then(r => {
+      sessionStorage.setItem('kk_auth', auth);
+      sessionStorage.setItem('kk_user', r.username);
+      enterApp(r.username);
+    })
+    .catch(err => { auth = null; document.getElementById('loginMsg').textContent = err.message; });
+}
+function logout() {
+  auth = null;
+  sessionStorage.removeItem('kk_auth');
+  sessionStorage.removeItem('kk_user');
+  document.getElementById('app').hidden = true;
+  document.getElementById('gate').hidden = false;
+  document.getElementById('userDropdown').hidden = true;
+  document.getElementById('loginMsg').textContent = '';
+}
+function toggleUserDropdown(e) {
+  e.stopPropagation();
+  const d = document.getElementById('userDropdown');
+  d.hidden = !d.hidden;
+}
+document.addEventListener('click', () => { document.getElementById('userDropdown').hidden = true; });
+
+// ---- SUPPLIER ----
+async function loadSupplier() {
+  const list = await api('GET', '/api/supplier');
+  document.getElementById('statSupplier').textContent = list.length;
+  document.getElementById('tblSupplier').innerHTML = list.map((s, i) =>
+    `<tr><td>${i + 1}</td><td>${s.namaSupp}</td>
+     <td><button class="danger" onclick="delSupplier(${s.id})">hapus</button></td></tr>`).join('');
+  document.getElementById('bSupplier').innerHTML = list.length
+    ? list.map(s => `<option value="${s.id}">${s.namaSupp}</option>`).join('')
+    : '<option value="">— belum ada supplier —</option>';
+}
+function addSupplier(e) {
+  e.preventDefault();
+  api('POST', '/api/supplier', { namaSupp: sNama.value })
+    .then(() => { msg('msgSupplier', 'Tersimpan', true); e.target.reset(); loadSupplier(); })
+    .catch(err => msg('msgSupplier', err.message, false));
+}
+function delSupplier(id) {
+  api('DELETE', '/api/supplier/' + id).then(loadSupplier).catch(err => msg('msgSupplier', err.message, false));
+}
+
+// ---- BARANG ----
+async function loadBarang() {
+  const list = await api('GET', '/api/barang');
+  barangCache = list;
+  document.getElementById('statBarang').textContent = list.length;
+  document.getElementById('tblBarang').innerHTML = list.map((b, i) =>
+    `<tr><td>${i + 1}</td><td>${b.namaBarang}</td><td>${rupiah(b.price)}</td><td>${b.stok}</td>
+     <td>${b.namaSupplier ?? '-'}</td>
+     <td><button class="sec" onclick="editBarang(${b.id})">edit</button>
+         <button class="danger" onclick="delBarang(${b.id})">hapus</button></td></tr>`).join('');
+  document.querySelectorAll('.barangSelect').forEach(sel => sel.innerHTML = barangOptions());
+  renderChart();
+}
+let editingBarangId = null;
+function saveBarang(e) {
+  e.preventDefault();
+  if (!bSupplier.value) return msg('msgBarang', 'Tambah supplier dulu — barang wajib punya supplier', false);
+  const body = {
+    namaBarang: bNama.value, price: Number(bPrice.value),
+    stok: Number(bStok.value), supplierId: Number(bSupplier.value)
+  };
+  const req = editingBarangId
+    ? api('PUT', '/api/barang/' + editingBarangId, body)
+    : api('POST', '/api/barang', body);
+  req.then(() => { msg('msgBarang', editingBarangId ? 'Perubahan disimpan' : 'Tersimpan', true); cancelEditBarang(); loadBarang(); })
+     .catch(err => msg('msgBarang', err.message, false));
+}
+function editBarang(id) {
+  const b = barangCache.find(x => x.id === id);
+  if (!b) return;
+  bNama.value = b.namaBarang; bPrice.value = b.price; bStok.value = b.stok;
+  bSupplier.value = b.supplierId ?? '';
+  editingBarangId = id;
+  document.getElementById('barangFormTitle').textContent = 'Edit Barang';
+  document.getElementById('barangSubmit').textContent = 'Simpan';
+  document.getElementById('barangCancel').hidden = false;
+}
+function cancelEditBarang() {
+  editingBarangId = null;
+  document.querySelector('#view-barang form').reset();
+  document.getElementById('barangFormTitle').textContent = 'Tambah Barang';
+  document.getElementById('barangSubmit').textContent = 'Tambah';
+  document.getElementById('barangCancel').hidden = true;
+}
+function delBarang(id) {
+  api('DELETE', '/api/barang/' + id).then(loadBarang).catch(err => msg('msgBarang', err.message, false));
+}
+
+// ---- DONUT CHART (SVG murni, stok per barang) ----
+function renderChart() {
+  const el = document.getElementById('donut');
+  const legend = document.getElementById('donutLegend');
+  const data = barangCache.filter(b => b.stok > 0)
+    .map(b => ({ label: b.namaBarang, value: b.stok, supplier: b.namaSupplier ?? '-' }));
+  const total = data.reduce((s, d) => s + d.value, 0);
+  if (!total) { el.innerHTML = ''; legend.innerHTML = '<span class="hint">Belum ada stok barang.</span>'; return; }
+  const colors = ['#2563eb', '#16a34a', '#f59e0b', '#dc2626', '#7c3aed', '#0891b2', '#db2777', '#65a30d'];
+  const R = 70, C = 2 * Math.PI * R;
+  let offset = 0;
+  const circles = data.map((d, i) => {
+    const len = (d.value / total) * C;
+    const c = `<circle r="${R}" cx="90" cy="90" fill="none" stroke="${colors[i % colors.length]}"
+      stroke-width="30" stroke-dasharray="${len} ${C - len}" stroke-dashoffset="${-offset}"
+      transform="rotate(-90 90 90)"></circle>`;
+    offset += len; return c;
+  }).join('');
+  el.innerHTML = `<svg viewBox="0 0 180 180" width="180" height="180">${circles}
+    <text x="90" y="86" text-anchor="middle" font-size="12" fill="#64748b">Total stok</text>
+    <text x="90" y="108" text-anchor="middle" font-size="22" font-weight="700" fill="#0f172a">${total}</text></svg>`;
+  legend.innerHTML = data.map((d, i) =>
+    `<div class="lg"><span class="dot" style="background:${colors[i % colors.length]}"></span>
+     ${d.label} <span class="hint">· ${d.supplier}</span> &nbsp;<b>stok ${d.value}</b></div>`).join('');
+}
+
+// ---- PEMBELI ----
+async function loadPembeli() {
+  const list = await api('GET', '/api/pembeli');
+  document.getElementById('statPembeli').textContent = list.length;
+  document.getElementById('tblPembeli').innerHTML = list.map((p, i) =>
+    `<tr><td>${i + 1}</td><td>${p.namaPembeli}</td><td>${p.jenisKelamin}</td><td>${p.noTelepon ?? ''}</td><td>${p.alamat ?? ''}</td></tr>`).join('');
+  document.getElementById('tPembeli').innerHTML = '<option value="">Umum (tanpa nama)</option>' +
+    list.map(p => `<option value="${p.id}">${p.namaPembeli}</option>`).join('');
+}
+function addPembeli(e) {
+  e.preventDefault();
+  api('POST', '/api/pembeli', {
+    namaPembeli: pNama.value, jenisKelamin: pJk.value, noTelepon: pTelp.value, alamat: pAlamat.value
+  }).then(() => { msg('msgPembeli', 'Tersimpan', true); e.target.reset(); loadPembeli(); })
+    .catch(err => msg('msgPembeli', err.message, false));
+}
+
+// ---- TRANSAKSI ----
+function addItemRow() {
+  const div = document.createElement('div');
+  div.className = 'items-row';
+  div.innerHTML = `<select class="barangSelect" style="flex:1">${barangOptions()}</select>
+    <input type="number" class="qtyInput" min="1" value="1" placeholder="qty" style="width:90px">
+    <button type="button" class="danger" onclick="this.parentElement.remove()">x</button>`;
+  document.getElementById('itemRows').appendChild(div);
+}
+function createTransaksi(e) {
+  e.preventDefault();
+  const rows = [...document.querySelectorAll('#itemRows .items-row')];
+  const items = rows.map(r => ({
+    barangId: Number(r.querySelector('.barangSelect').value),
+    quantity: Number(r.querySelector('.qtyInput').value)
+  })).filter(i => i.barangId);
+  if (!items.length) return msg('msgTransaksi', 'Tambah minimal 1 item', false);
+  const pembeliId = tPembeli.value ? Number(tPembeli.value) : null;
+  api('POST', '/api/transaksi', { pembeliId, items })
+    .then(t => {
+      msg('msgTransaksi', 'Transaksi #' + t.id + ' dibuat', true);
+      document.getElementById('trxResult').innerHTML =
+        `<div class="pill">No Transaksi <b>${t.id}</b> — ${t.namaPembeli ?? 'Umum'} — Total <b>${rupiah(t.totalHarga)}</b><br>` +
+        t.items.map(i => `&nbsp;• ${i.namaBarang} × ${i.quantity} = ${rupiah(i.subtotal)}`).join('<br>') + '</div>';
+      document.getElementById('itemRows').innerHTML = '';
+      addItemRow();
+      loadBarang();
+      loadTransaksi();
+    }).catch(err => msg('msgTransaksi', err.message, false));
+}
+async function loadTransaksi() {
+  const list = await api('GET', '/api/transaksi');
+  document.getElementById('tblTransaksi').innerHTML = list.map((t, i) =>
+    `<tr><td>${i + 1}</td><td>${t.id}</td><td>${t.namaPembeli ?? 'Umum'}</td>
+     <td>${new Date(t.tanggal).toLocaleString('id-ID')}</td><td>${rupiah(t.totalHarga)}</td>
+     <td>${t.items.length}</td></tr>`).join('');
+}
+function getTransaksi(e) {
+  e.preventDefault();
+  api('GET', '/api/transaksi/' + trxLookup.value)
+    .then(t => {
+      document.getElementById('trxDetail').innerHTML =
+        `<div class="pill">No Transaksi <b>${t.id}</b> — ${t.namaPembeli ?? 'Umum'} — ${new Date(t.tanggal).toLocaleString('id-ID')}<br>` +
+        t.items.map(i => `&nbsp;• ${i.namaBarang} × ${i.quantity} = ${rupiah(i.subtotal)}`).join('<br>') +
+        `<br>Total: <b>${rupiah(t.totalHarga)}</b></div>`;
+    }).catch(err => document.getElementById('trxDetail').innerHTML = `<div class="msg err">${err.message}</div>`);
+}
+
+// ---- PEMBAYARAN ----
+function bayar(e) {
+  e.preventDefault();
+  api('POST', '/api/pembayaran', { transaksiId: Number(payTrx.value), uangDibayar: Number(payUang.value) })
+    .then(p => {
+      msg('msgPembayaran', 'Pembayaran tersimpan', true);
+      document.getElementById('payResult').innerHTML =
+        `<div class="pill">No Transaksi ${p.transaksiId} — Total ${rupiah(p.totalHarga)}<br>
+         Dibayar ${rupiah(p.uangDibayar)} — Kembalian <b>${rupiah(p.kembalian)}</b></div>`;
+    }).catch(err => { msg('msgPembayaran', err.message, false); document.getElementById('payResult').innerHTML = ''; });
+}
+
+// ---- INIT (setelah login) ----
+function initApp() {
+  showView('dashboard', 'Dashboard');
+  loadSupplier();
+  loadBarang();
+  loadPembeli();
+  loadTransaksi();
+  if (!document.querySelector('#itemRows .items-row')) addItemRow();
+}
+
+// restore sesi supaya refresh tak balik ke login
+(function restoreSession() {
+  const t = sessionStorage.getItem('kk_auth');
+  const u = sessionStorage.getItem('kk_user');
+  if (t && u) { auth = t; enterApp(u); }
+})();
+</script>
+</body>
+</html>

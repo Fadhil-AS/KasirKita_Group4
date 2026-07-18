@@ -1,0 +1,121 @@
+<mxfile host="65bd71144e">
+    <diagram id="NYFUSOli6FWqFOTmLqQb" name="Page-1">
+        <mxGraphModel dx="1086" dy="458" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="640" math="0" shadow="0" adaptiveColors="auto">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="title" value="KasirKita — Class Diagram" style="text;html=1;align=center;fontStyle=1;fontSize=16;" parent="1" vertex="1">
+                    <mxGeometry x="330" y="8" width="360" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="base" value="&lt;i&gt;&amp;laquo;abstract&amp;raquo;&lt;/i&gt;&lt;br&gt;&lt;b&gt;BaseEntity&lt;/b&gt;&lt;hr&gt;- id: Long&lt;br&gt;- createdAt: LocalDateTime&lt;br&gt;- updatedAt: LocalDateTime&lt;hr&gt;+ getId() / setId()" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fontSize=11;fillColor=#f5f5f5;strokeColor=#666666;" parent="1" vertex="1">
+                    <mxGeometry x="395" y="44" width="215" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="supplier" value="&lt;b&gt;Supplier&lt;/b&gt;&lt;hr&gt;- namaSupp: String&lt;br&gt;- noTelp: String&lt;br&gt;- alamat: String&lt;hr&gt;+ getters / setters" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fontSize=11;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="220" width="200" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="barang" value="&lt;b&gt;Barang&lt;/b&gt;&lt;hr&gt;- namaBarang: String&lt;br&gt;- price: BigDecimal&lt;br&gt;- stok: int&lt;br&gt;- supplier: Supplier&lt;hr&gt;+ getters / setters" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fontSize=11;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="275" y="220" width="210" height="134" as="geometry"/>
+                </mxCell>
+                <mxCell id="pembeli" value="&lt;b&gt;Pembeli&lt;/b&gt;&lt;hr&gt;- namaPembeli: String&lt;br&gt;- jenisKelamin: JenisKelamin&lt;br&gt;- noTelepon: String&lt;br&gt;- alamat: String&lt;hr&gt;+ getters / setters" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fontSize=11;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="520" y="220" width="215" height="134" as="geometry"/>
+                </mxCell>
+                <mxCell id="user" value="&lt;b&gt;User&lt;/b&gt;&lt;hr&gt;- username: String&lt;br&gt;- passwordHash: String&lt;br&gt;- role: String&lt;hr&gt;+ getters / setters" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fontSize=11;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="775" y="220" width="200" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="pembayaran" value="&lt;b&gt;Pembayaran&lt;/b&gt;&lt;hr&gt;- transaksi: Transaksi&lt;br&gt;- uangDibayar: BigDecimal&lt;br&gt;- kembalian: BigDecimal&lt;br&gt;- tglBayar: LocalDateTime&lt;hr&gt;+ getters / setters" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fontSize=11;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="440" width="210" height="134" as="geometry"/>
+                </mxCell>
+                <mxCell id="transaksi" value="&lt;b&gt;Transaksi&lt;/b&gt;&lt;hr&gt;- pembeli: Pembeli&lt;br&gt;- tanggal: LocalDateTime&lt;br&gt;- totalHarga: BigDecimal&lt;br&gt;- items: List of DetailTransaksi&lt;hr&gt;+ addItem() + getters / setters" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fontSize=11;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="290" y="440" width="225" height="134" as="geometry"/>
+                </mxCell>
+                <mxCell id="detail" value="&lt;b&gt;DetailTransaksi&lt;/b&gt;&lt;hr&gt;- transaksi: Transaksi&lt;br&gt;- barang: Barang&lt;br&gt;- quantity: int&lt;br&gt;- subtotal: BigDecimal&lt;hr&gt;+ getters / setters" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fontSize=11;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="555" y="440" width="215" height="134" as="geometry"/>
+                </mxCell>
+                <mxCell id="jk" value="&lt;i&gt;&amp;laquo;enum&amp;raquo;&lt;/i&gt;&lt;br&gt;&lt;b&gt;JenisKelamin&lt;/b&gt;&lt;hr&gt;L&lt;br&gt;P" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fontSize=11;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+                    <mxGeometry x="810" y="440" width="165" height="96" as="geometry"/>
+                </mxCell>
+                <mxCell id="i1" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=0;" parent="1" source="supplier" target="base" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="140" y="192"/>
+                            <mxPoint x="503" y="192"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="i2" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=0;" parent="1" source="barang" target="base" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="i3" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=0;" parent="1" source="pembeli" target="base" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="i4" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=0;" parent="1" source="user" target="base" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="875" y="192"/>
+                            <mxPoint x="503" y="192"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="i5" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="transaksi" target="base" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="403" y="423"/>
+                            <mxPoint x="503" y="423"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="i6" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=0;" parent="1" source="detail" target="base" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="663" y="422"/>
+                            <mxPoint x="503" y="422"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="i7" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=0;" parent="1" source="pembayaran" target="base" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="145" y="398"/>
+                            <mxPoint x="503" y="398"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="a1" value="*        1" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;fontSize=10;" parent="1" source="barang" target="supplier" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="a2" value="*        1" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;fontSize=10;" parent="1" source="detail" target="barang" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="663" y="415"/>
+                            <mxPoint x="380" y="415"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="a3" value="1 .. *" style="edgeStyle=orthogonalEdgeStyle;html=1;startArrow=diamondThin;startFill=1;endArrow=open;fontSize=10;" parent="1" source="transaksi" target="detail" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="a4" value="*        1 (opsional)" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;fontSize=10;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="transaksi" target="pembeli" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="541" y="507"/>
+                            <mxPoint x="541" y="400"/>
+                            <mxPoint x="628" y="400"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="a5" value="*        1" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;fontSize=10;" parent="1" source="pembayaran" target="transaksi" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="a6" value="pakai" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;dashed=1;fontSize=10;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="pembeli" target="jk" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="759" y="287"/>
+                            <mxPoint x="759" y="409"/>
+                            <mxPoint x="893" y="409"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
